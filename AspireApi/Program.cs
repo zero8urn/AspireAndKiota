@@ -1,3 +1,5 @@
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,3 +23,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace AspireApi
+{
+    public partial class Program { }
+}
