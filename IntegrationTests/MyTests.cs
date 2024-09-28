@@ -1,4 +1,6 @@
-﻿namespace IntegrationTests;
+﻿using System.Threading.Tasks;
+
+namespace IntegrationTests;
 
 
 [Collection(nameof(ApiFixture))]

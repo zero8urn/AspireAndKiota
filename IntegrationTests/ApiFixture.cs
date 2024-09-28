@@ -1,4 +1,5 @@
 ﻿using AspireApi;
+using System;
 
 namespace IntegrationTests;
 
@@ -14,7 +15,7 @@ public class ApiFixture : IDisposable
 
     public ApiFixture()
     {
-        this.Factory = new HostFactory<AspireApi.Program>();
+        Factory = new HostFactory<AspireApi.Program>();
     }
 
     public void Dispose()
