@@ -24,6 +24,7 @@ public static class Registrations
         }).AttachKiotaHandlers(); // could have unwanted behaviors like a retry.
 
         builder.Services.AddTransient(sp => sp.GetRequiredService<AspireApiClientFactory>().GetClientV1());
+        builder.Services.AddTransient(sp => sp.GetRequiredService<AspireApiClientFactory>().GetClientV2());
 
         return builder;
     }
