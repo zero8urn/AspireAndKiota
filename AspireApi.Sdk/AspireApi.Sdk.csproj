@@ -25,9 +25,11 @@
     <KiotaOutputDirectory>$(MSBuildProjectDirectory)\Generated</KiotaOutputDirectory>
   </PropertyGroup>
 
-  <Target Name="GenerateSDK" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug' Or '$(GenerateSDK)' == 'true'">
+  <Target Name="GenerateSDK" AfterTargets="Build">
+    <RemoveDir Directories="$(KiotaOutputDirectory)" />
     <Exec Command="dotnet tool restore" />
-    <Exec Command="dotnet tool run kiota generate -l CSharp --openapi $(OpenApiDocumentsDirectory)\openapi-v1.json --output $(KiotaOutputDirectory) --namespace-name AspireApi.Sdk.V1 --class-name AspireApiClient" />
+    <Exec Command="dotnet tool run kiota generate -l CSharp --openapi $(OpenApiDocumentsDirectory)\openapi-v1.json --output $(KiotaOutputDirectory)\V1 --namespace-name AspireApi.Sdk.V1 --class-name AspireApiClient" />
+    <Exec Command="dotnet tool run kiota generate -l CSharp --openapi $(OpenApiDocumentsDirectory)\openapi-v2.json --output $(KiotaOutputDirectory)\V2 --namespace-name AspireApi.Sdk.V2 --class-name AspireApiClient" />
   </Target>
 
 </Project>

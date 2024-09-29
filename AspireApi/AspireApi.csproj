@@ -25,6 +25,7 @@
     <MakeDir Directories="$(OpenApiDocumentsDirectory)" />
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet tool run swagger tofile --output $(OpenApiDocumentsDirectory)\openapi-v1.json $(OutputPath)$(AssemblyName).dll v1" />
+    <Exec Command="dotnet tool run swagger tofile --output $(OpenApiDocumentsDirectory)\openapi-v2.json $(OutputPath)$(AssemblyName).dll v2" />
   </Target>
 
 </Project>

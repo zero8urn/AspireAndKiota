@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "1.0",
+    "title": "2.0",
     "description": "My Api",
-    "version": "1.0"
+    "version": "2.0"
   },
   "paths": {
-    "/api/v1/weatherforecast": {
+    "/api/v2/weatherforecast": {
       "get": {
         "tags": [
           "WeatherForecastControllerV"
@@ -15,7 +15,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain; x-api-version=1.0": {
+              "text/plain; x-api-version=2.0": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -23,7 +23,7 @@
                   }
                 }
               },
-              "application/json; x-api-version=1.0": {
+              "application/json; x-api-version=2.0": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -31,7 +31,7 @@
                   }
                 }
               },
-              "text/json; x-api-version=1.0": {
+              "text/json; x-api-version=2.0": {
                 "schema": {
                   "type": "array",
                   "items": {

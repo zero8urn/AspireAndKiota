@@ -15,9 +15,14 @@ public class AspireApiClientFactory
         _httpClient = httpClient;
     }
 
-    public AspireApi.Sdk.V1.AspireApiClient GetClient()
+    public AspireApi.Sdk.V1.AspireApiClient GetClientV1()
     {
         return new AspireApi.Sdk.V1.AspireApiClient(new HttpClientRequestAdapter(_authenticationProvider, httpClient: _httpClient));
+    }
+
+    public AspireApi.Sdk.V2.AspireApiClient GetClientV2()
+    {
+        return new AspireApi.Sdk.V2.AspireApiClient(new HttpClientRequestAdapter(_authenticationProvider, httpClient: _httpClient));
     }
 
 }

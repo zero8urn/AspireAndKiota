@@ -14,10 +14,19 @@ public class MyTests
     }
 
     [Fact]
-    public async Task MyTest()
+    public async Task MyTestV1()
     {
         var client = apiFixture.Factory.CreateClient();
-        var resp = await client.GetAsync("WeatherForecast");
+        var resp = await client.GetAsync("api/v1/weatherforecast");
+
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+    }
+
+    [Fact]
+    public async Task MyTestV2()
+    {
+        var client = apiFixture.Factory.CreateClient();
+        var resp = await client.GetAsync("api/v2/weatherforecast");
 
         Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
     }
