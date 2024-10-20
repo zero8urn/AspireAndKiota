@@ -1,10 +1,8 @@
-
-
 using Asp.Versioning;
 using AspireApi;
+using AspireApi.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
@@ -34,15 +32,13 @@ builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefault
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopmentOrLocal())
 {
     app.UseSwagger();
-    //app.UseSwaggerUI();
     app.UseSwaggerUI(options =>
     {
         var descriptions = app.DescribeApiVersions().OrderByDescending(x => x.ApiVersion.MajorVersion);
