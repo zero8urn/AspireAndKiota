@@ -9,7 +9,7 @@
     "/api/v2/weatherforecast": {
       "get": {
         "tags": [
-          "WeatherForecastControllerV"
+          "WeatherForecast"
         ],
         "responses": {
           "200": {

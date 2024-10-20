@@ -5,26 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AspireApi.Controllers
+namespace AspireApi.Controllers.V2
 {
     [ApiController]
-    [ApiVersion(1)]
+    [ApiVersion(2)]
     [Route("api/v{version:apiVersion}/weatherforecast")]
-    public class WeatherForecastControllerV1 : ControllerBase
+    public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastControllerV1> _logger;
+        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastControllerV1(ILogger<WeatherForecastControllerV1> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
         }
 
-        [HttpGet()]
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

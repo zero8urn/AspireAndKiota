@@ -1,6 +1,8 @@
 ﻿using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using System;
+using System.Linq;
 using System.Net.Http;
 
 namespace IntegrationTests;
@@ -9,11 +11,11 @@ public static class Registrations
 {
     public static IDistributedApplicationBuilder BuildHost()
     {
-        var options = new DistributedApplicationOptions { AssemblyName = typeof(IntegrationFixture).Assembly.FullName, DisableDashboard = true };
+        var builder = AspireApi.Local.Registrations.BuildHost(true);
 
-        var builder = DistributedApplication.CreateBuilder(options); //DistributedApplicationTestingBuilder.CreateAsync() this might be another way to setup a test project
+        var apiServiceResource = (ProjectResource)builder.Resources.First(x => x.Name == AspireApi.Local.Registrations.Api);
 
-        var apiService = builder.AddProject("api", @"../AspireApi/AspireApi.csproj");
+        var apiService = builder.CreateResourceBuilder(apiServiceResource);
 
         builder.Services.AddKiotaHandlers();
 
