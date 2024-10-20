@@ -10,7 +10,7 @@
         http://www.liquibase.org/xml/ns/pro
         http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-    <changeSet author="deploy" id="${now()}">
+    <changeSet author="deploy" id="2024-10-20-add-items">
       <sql dbms="postgresql" endDelimiter=";">
         create table if not exists todo.items (
           id uuid not null,
