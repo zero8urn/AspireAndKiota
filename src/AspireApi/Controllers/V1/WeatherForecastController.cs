@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 namespace AspireApi.Controllers.V1
 {
     [ApiController]
+    [Authorize]
     [ApiVersion(1)]
     [Route("api/v{version:apiVersion}/weatherforecast")]
     public class WeatherForecastController : ControllerBase

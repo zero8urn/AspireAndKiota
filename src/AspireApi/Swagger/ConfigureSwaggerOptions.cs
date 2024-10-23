@@ -1,16 +1,20 @@
 ﻿using Asp.Versioning.ApiExplorer;
+using AspireApi.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AspireApi;
+namespace AspireApi.Swagger;
 
 public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider provider;
 
-    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) => this.provider = provider;
+    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
+    {
+        this.provider = provider;
+    }
 
     public void Configure(SwaggerGenOptions options)
     {
@@ -27,21 +31,15 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         options.DescribeAllParametersInCamelCase();
         options.UseInlineDefinitionsForEnums();
 
-        //options.TagActionsBy(x =>
-        //{
-        //    var controller = x.ActionDescriptor as ControllerActionDescriptor;
-
-        //    return [controller?.ControllerName.Substring(0, controller.ControllerName.ToLower().IndexOf("controller"))];
-        //});
-
         options.OrderActionsBy(x => x.RelativePath);
 
-        options.AddSecurityDefinition("Key", new OpenApiSecurityScheme
+        options.AddSecurityDefinition(ApiKeyConstants.SchemeName, new OpenApiSecurityScheme
         {
+            Description = "API Key Authentication",
+            Name = ApiKeyConstants.HeaderName,
+            In = ParameterLocation.Header,
             Type = SecuritySchemeType.ApiKey,
-            Description = "Api Key",
-            Name = "x-api-key",
-            In = ParameterLocation.Path
+            Scheme = ApiKeyConstants.SchemeName
         });
 
         options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -49,10 +47,10 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             {
                 new OpenApiSecurityScheme
                 {
-                    Reference = new()
+                    Reference = new OpenApiReference
                     {
                         Type = ReferenceType.SecurityScheme,
-                        Id = "Key"
+                        Id = "ApiKey"
                     }
                 },
                 []

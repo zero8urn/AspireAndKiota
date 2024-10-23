@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -17,8 +17,24 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>$(MSBuildProjectName)\appsettings.Development.json</Link>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>$(MSBuildProjectName)\appsettings.json</Link>
+    </Content>
+    <Content Update="appsettings.Local.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>$(MSBuildProjectName)\appsettings.Local.json</Link>
+    </Content>
+  </ItemGroup>
+
   <PropertyGroup>
     <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\openapi</OpenApiDocumentsDirectory>
+    <UserSecretsId>80c6a813-e8d5-4bfb-a86b-ac2f7ffc0872</UserSecretsId>
   </PropertyGroup>
 
   <Target Name="GenerateOpenApiDocument" AfterTargets="Build">

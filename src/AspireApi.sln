@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApi.Sdk", "AspireApi.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApi.Local", "AspireApi.Local\AspireApi.Local.csproj", "{A7CB2C34-A373-4CD6-A76A-DB8B4E8648E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApi.Common", "AspireApi.Common\AspireApi.Common.csproj", "{5CF121D9-AFFF-47B1-A956-B6C8D63AC22F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApi.Common", "AspireApi.Common\AspireApi.Common.csproj", "{5CF121D9-AFFF-47B1-A956-B6C8D63AC22F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

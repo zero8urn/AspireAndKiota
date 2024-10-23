@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace AspireApi.Local;
 
@@ -14,7 +15,18 @@ public static class Registrations
 
         var builder = DistributedApplication.CreateBuilder(options); //DistributedApplicationTestingBuilder.CreateAsync() this might be another way to setup a test project
 
+        var projectName = "AspireApi.Local";
+        builder.Configuration.AddJsonFile($"{projectName}/appsettings.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddJsonFile($"{projectName}/appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddEnvironmentVariables();
+
         var apiService = builder.AddProject(Api, @"../AspireApi/AspireApi.csproj");
+        var https = apiService.GetEndpoint("https");
+
+        if (!https.Exists)
+        {
+            apiService.WithHttpsEndpoint();
+        }
 
         var liquibaseDirectory = builder.Configuration["Liquibase:Directory"];
 

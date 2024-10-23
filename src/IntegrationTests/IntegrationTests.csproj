@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspireApi.Local\AspireApi.Local.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\AspireApi.Local\AspireApi.Local.csproj" IsAspireProjectResource="true" />
     <ProjectReference Include="..\AspireApi.Sdk\AspireApi.Sdk.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
