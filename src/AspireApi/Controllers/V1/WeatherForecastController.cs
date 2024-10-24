@@ -11,6 +11,7 @@ namespace AspireApi.Controllers.V1
     [ApiController]
     [Authorize]
     [ApiVersion(1)]
+    [Produces("application/json")]
     [Route("api/v{version:apiVersion}/weatherforecast")]
     public class WeatherForecastController : ControllerBase
     {
