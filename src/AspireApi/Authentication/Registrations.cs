@@ -27,10 +27,6 @@ public static class Registrations
             .RequireAuthenticatedUser()
             .Build());
 
-
-        //services.AddAuthorizationBuilder()
-        //    .AddPolicy(apiKeyOptions.PolicyName, policy => policy.RequireClaim(apiKeyOptions.ClaimName));
-
         return services;
     }
 }
