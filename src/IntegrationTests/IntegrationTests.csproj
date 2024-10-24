@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspireApi.Local\AspireApi.Local.csproj" IsAspireProjectResource="true" />
+    <ProjectReference Include="..\AspireApi.Local\AspireApi.Local.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\AspireApi.Sdk\AspireApi.Sdk.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
