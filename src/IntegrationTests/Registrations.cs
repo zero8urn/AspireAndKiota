@@ -1,5 +1,8 @@
 ﻿using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
+using AspireApi.Authentication;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using System;
 using System.Linq;
@@ -9,9 +12,23 @@ namespace IntegrationTests;
 
 public static class Registrations
 {
+    public static IDistributedApplicationBuilder AddConfiguration(this IDistributedApplicationBuilder builder)
+    {
+        var aspireApi = "AspireApi";
+        var aspireApiLocal = "AspireApi.Local";
+        builder.Configuration.AddJsonFile($"{aspireApi}/appsettings.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddJsonFile($"{aspireApi}/appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddJsonFile($"{aspireApiLocal}/appsettings.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddJsonFile($"{aspireApiLocal}/appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddEnvironmentVariables();
+        return builder;
+    }
+
     public static IDistributedApplicationBuilder BuildHost()
     {
         var builder = AspireApi.Local.Registrations.BuildHost(true);
+
+        builder.AddConfiguration();
 
         var apiServiceResource = (ProjectResource)builder.Resources.First(x => x.Name == AspireApi.Local.Registrations.Api);
 
@@ -19,9 +36,16 @@ public static class Registrations
 
         builder.Services.AddKiotaHandlers();
 
+        builder.Services.AddSingleton<IAuthenticationProvider, ApiKeyAuthenticationProvider>(sp =>
+        {
+            var apiKey = builder.Configuration.GetValue<string>("ApiKey");
+
+            return new ApiKeyAuthenticationProvider(apiKey, ApiKeyConstants.HeaderName, ApiKeyAuthenticationProvider.KeyLocation.Header);
+        });
+
         builder.Services.AddHttpClient<AspireApiClientFactory>((sp, client) =>
         {
-            var baseUrl = apiService.GetEndpoint("http").Url;
+            var baseUrl = apiService.GetEndpoint("https").Url;
             client.BaseAddress = new Uri(baseUrl);
         }).AttachKiotaHandlers(); // could have unwanted behaviors like a retry.
 

@@ -1,0 +1,6 @@
+
+
+###
+# @name GetWeather
+GET {{aspireApi}}/api/v2/weatherforecast
+x-api-key: {{aspireApiKey}}

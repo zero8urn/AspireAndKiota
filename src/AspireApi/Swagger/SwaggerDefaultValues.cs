@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
 using System.Text.Json;
 
-namespace AspireApi;
+namespace AspireApi.Swagger;
 
 public class SwaggerDefaultValues : IOperationFilter
 {

@@ -1,15 +1,20 @@
 using Asp.Versioning;
 using AspireApi;
-using AspireApi.Extensions;
+using AspireApi.Authentication;
+using AspireApi.Swagger;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Linq;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var projectName = "AspireApi";
+builder.Configuration.AddJsonFile($"{projectName}/appsettings.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddJsonFile($"{projectName}/appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddAuth(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
@@ -17,9 +22,7 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
-    options.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
-                                                    new HeaderApiVersionReader("x-api-version"),
-                                                    new MediaTypeApiVersionReader("x-api-version"));
+    options.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader());
 })
 .AddApiExplorer(options =>
 {
@@ -27,37 +30,26 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwag(builder.Configuration);
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopmentOrLocal())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        var descriptions = app.DescribeApiVersions().OrderByDescending(x => x.ApiVersion.MajorVersion);
-
-        // Build a swagger endpoint for each discovered API version
-        foreach (var description in descriptions)
-        {
-            var url = $"/{options.RoutePrefix}/{description.GroupName}/swagger.json";
-            var name = description.GroupName.ToUpperInvariant();
-            options.SwaggerEndpoint(url, name);
-        }
-    });
-}
-
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthorization();
+
+app.UseSwag();
+
 app.MapControllers();
+
+app.UseExceptionHandler();
 
 app.Run();
 

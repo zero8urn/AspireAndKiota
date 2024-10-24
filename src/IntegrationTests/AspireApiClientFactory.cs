@@ -6,23 +6,24 @@ namespace IntegrationTests;
 
 public class AspireApiClientFactory
 {
-    private readonly IAuthenticationProvider _authenticationProvider;
     private readonly HttpClient _httpClient;
+    private readonly IAuthenticationProvider authProvider;
 
-    public AspireApiClientFactory(HttpClient httpClient)
+    public AspireApiClientFactory(HttpClient httpClient,
+        IAuthenticationProvider authProvider)
     {
-        _authenticationProvider = new AnonymousAuthenticationProvider();
         _httpClient = httpClient;
+        this.authProvider = authProvider;
     }
 
     public AspireApi.Sdk.V1.AspireApiClient GetClientV1()
     {
-        return new AspireApi.Sdk.V1.AspireApiClient(new HttpClientRequestAdapter(_authenticationProvider, httpClient: _httpClient));
+        return new AspireApi.Sdk.V1.AspireApiClient(new HttpClientRequestAdapter(authProvider, httpClient: _httpClient));
     }
 
     public AspireApi.Sdk.V2.AspireApiClient GetClientV2()
     {
-        return new AspireApi.Sdk.V2.AspireApiClient(new HttpClientRequestAdapter(_authenticationProvider, httpClient: _httpClient));
+        return new AspireApi.Sdk.V2.AspireApiClient(new HttpClientRequestAdapter(authProvider, httpClient: _httpClient));
     }
 
 }

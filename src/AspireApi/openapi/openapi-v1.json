@@ -15,23 +15,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain; x-api-version=1.0": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "application/json; x-api-version=1.0": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "text/json; x-api-version=1.0": {
+              "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -72,17 +56,17 @@
       }
     },
     "securitySchemes": {
-      "Key": {
+      "ApiKey": {
         "type": "apiKey",
-        "description": "Api Key",
+        "description": "API Key Authentication",
         "name": "x-api-key",
-        "in": "path"
+        "in": "header"
       }
     }
   },
   "security": [
     {
-      "Key": [ ]
+      "ApiKey": [ ]
     }
   ]
 }
