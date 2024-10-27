@@ -15,7 +15,7 @@ public class MyAspireTests
     [Fact]
     public async Task MyAspireTestV1()
     {
-        var client = integrationFixture.Host.Services.GetRequiredService<AspireApi.Sdk.V1.AspireApiClient>();
+        var client = integrationFixture.ClientV1;
         var resp = await client.Api.V1.Weatherforecast.GetAsync();
         Assert.True(resp?.Count > 1);
     }
@@ -23,7 +23,7 @@ public class MyAspireTests
     [Fact]
     public async Task MyAspireTestV2()
     {
-        var client = integrationFixture.Host.Services.GetRequiredService<AspireApi.Sdk.V2.AspireApiClient>();
+        var client = integrationFixture.ClientV2;
         var resp = await client.Api.V2.Weatherforecast.GetAsync();
         Assert.True(resp?.Count > 1);
     }

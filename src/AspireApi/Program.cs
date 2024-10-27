@@ -1,11 +1,11 @@
 using Asp.Versioning;
 using AspireApi;
 using AspireApi.Authentication;
+using AspireApi.Common.DataAccess;
 using AspireApi.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,14 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddAuth(builder.Configuration);
 
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
+});
+
 builder.Services.AddControllers();
+
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -36,6 +43,8 @@ builder.Services.AddSwag(builder.Configuration);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddProblemDetails();
+
+builder.Services.AddDataAccess(builder.Configuration);
 
 var app = builder.Build();
 

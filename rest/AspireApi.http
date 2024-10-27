@@ -4,3 +4,15 @@
 # @name GetWeather
 GET {{aspireApi}}/api/v2/weatherforecast
 x-api-key: {{aspireApiKey}}
+
+###
+# @name PostTodo
+POST {{aspireApi}}/api/v1/todos
+x-api-key: {{aspireApiKey}}
+Content-Type: application/json
+accept: application/json
+
+{
+  "id": "{{$guid}}",
+  "name": "hello"
+}

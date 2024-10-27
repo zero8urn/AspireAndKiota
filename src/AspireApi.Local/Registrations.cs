@@ -43,7 +43,7 @@ public static class Registrations
         // when added as a reference to another service it injects a connection string with the database name on the end
         var db = dbServer.AddDatabase(TODO);
 
-        builder.AddContainer("liquibase", "liquibase/liquibase", "latest")
+        var liquibase = builder.AddContainer("liquibase", "liquibase/liquibase", "latest")
             .WithBindMount(liquibaseDirectory, "/liquibase/changelog")
             .WithEnvironment("LIQUIBASE_COMMAND_CHANGELOG_FILE", "changelog/changelogs-root.xml")
             .WithEnvironment("LIQUIBASE_COMMAND_URL", $"jdbc:postgresql://host.docker.internal:{dbPort.ToString()}/{TODO}") // future aspire update could change to use a named docker network
@@ -51,9 +51,11 @@ public static class Registrations
             .WithEnvironment("LIQUIBASE_COMMAND_PASSWORD", dbPassword.Resource.Value)
             .WithEnvironment("LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME", TODO)
             .WithReference(db)
-            .WithArgs("/bin/sh", "-c", "printenv && sleep 10 && liquibase update"); // the connection string for the db server is injected and instead of specifying LIQUIBASE_COMMAND_URL above it could be set in the container via a bash script. 
+            .WaitFor(db)
+            .WithArgs("/bin/sh", "-c", "printenv && liquibase update"); // the connection string for the db server is injected and instead of specifying LIQUIBASE_COMMAND_URL above it could be set in the container via a bash script. 
 
-        apiService.WithReference(db);
+        apiService.WithReference(db)
+            .WaitFor(liquibase);
 
         // why does this fail here, but works over in integration tests
         //var baseUrl = apiService.GetEndpoint("http");

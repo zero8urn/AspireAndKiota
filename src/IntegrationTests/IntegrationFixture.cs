@@ -13,6 +13,9 @@ public class IntegrationFixture : IAsyncLifetime, IDisposable
 {
     public IHost Host { get; private set; } = null!;
 
+    public AspireApi.Sdk.V1.AspireApiClient ClientV1 => Host.Services.GetRequiredService<AspireApi.Sdk.V1.AspireApiClient>();
+    public AspireApi.Sdk.V2.AspireApiClient ClientV2 => Host.Services.GetRequiredService<AspireApi.Sdk.V2.AspireApiClient>();
+
     public IntegrationFixture()
     {
         var builder = Registrations.BuildHost();
